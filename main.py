@@ -27,7 +27,7 @@ class GetYourGuide:
                 self.ret_countries.setdefault(continent_name, []).append({
                     'continent': continent_name,
                     'country': country_name,
-                    'url': f'{self.base_url}{country_url}'
+                    'url': f'{self.base_url}/{country_url}'
                 })
 
         return self.ret_countries
@@ -54,9 +54,14 @@ class GetYourGuide:
         for get_city in get_cities:
             city_name = get_city.text.replace(f', {country["country"]}', '').strip()
             city_url = get_city['href']
+            # open city url and get image
+            driver.get(f'https://www.getyourguide.com/{city_url}')
+            soup = BeautifulSoup(driver.page_source, 'html.parser')
+            image = soup.find('div', {'class': 'new-intro-banner__image-container'}).find('img')['src']
             country.setdefault('cities', []).append({
                 'name': city_name,
-                'url': f'https://www.getyourguide.com{city_url}'
+                'url': f'https://www.getyourguide.com/{city_url}',
+                'image': image
             })
         return country
 
