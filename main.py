@@ -30,6 +30,8 @@ class GetYourGuide:
                     'url': f'{self.base_url}/{country_url}'
                 })
 
+        self.driver.close()
+
         return self.ret_countries
 
     def get_cities(self):
@@ -63,6 +65,7 @@ class GetYourGuide:
                 'url': f'https://www.getyourguide.com/{city_url}',
                 'image': image
             })
+        driver.close()
         return country
 
 
